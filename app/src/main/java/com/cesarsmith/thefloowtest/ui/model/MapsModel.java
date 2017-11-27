@@ -1,5 +1,7 @@
 package com.cesarsmith.thefloowtest.ui.model;
 
+import android.app.Activity;
+
 import com.cesarsmith.thefloowtest.ui.presenter.callbacks.MapsCallback;
 
 /**
@@ -7,4 +9,15 @@ import com.cesarsmith.thefloowtest.ui.presenter.callbacks.MapsCallback;
  */
 
 public class MapsModel implements MapsCallback.Model {
+
+    MapsCallback.Presenter presenter;
+
+    public MapsModel(MapsCallback.Presenter presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public void getNetworkStatus(Activity activity) {
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.cesarsmith.thefloowtest.ui.view.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -85,15 +86,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Handler handler=new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(MainActivity.this, MapsActivity.class));
-                }
-            },350);
+
+
+            startDelayedActivity(MapsActivity.class);
 
         } else if (id == R.id.nav_gallery) {
+            startDelayedActivity(JourneysActivity.class);
+
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -109,6 +108,17 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    public void startDelayedActivity(final Class activity) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(MainActivity.this, activity));
+
+            }
+        }, 350);
     }
 
 
