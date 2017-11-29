@@ -23,7 +23,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cesarsmith.thefloowtest.background.listeners.LocationTrack;
 import com.cesarsmith.thefloowtest.ui.view.activities.MapsActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -127,4 +126,5 @@ public class TrackerService extends Service implements GoogleApiClient.Connectio
         Log.e(TAG, "onDestroy: mori loco" );
 
     }
+    //TODO:  recuerda verificar como hacer para evitar que deje de rastrear cuando apaga la pantalla
 }
