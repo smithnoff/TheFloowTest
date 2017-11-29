@@ -34,7 +34,12 @@ public class MapsPresenter implements MapsCallback.Presenter {
 
 
     @Override
-    public void getNetworkStatus(Activity activity) {
-    model.getNetworkStatus(activity);
+    public void setTrackingEnabled(Activity activity) {
+    model.setTrackingEnabled(activity);
+    }
+
+    @Override
+    public void setTrackingDisabled(Activity activity) {
+        model.setTrackingDisabled(activity);
     }
 }

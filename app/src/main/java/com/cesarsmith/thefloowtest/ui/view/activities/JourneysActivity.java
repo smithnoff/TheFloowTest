@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.cesarsmith.thefloowtest.R;
-import com.cesarsmith.thefloowtest.background.databases.pojos.Journey;
+import com.cesarsmith.thefloowtest.background.pojos.Journey;
 import com.cesarsmith.thefloowtest.ui.view.adapters.JourneyAdapter;
 
 import java.util.ArrayList;

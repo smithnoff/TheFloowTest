@@ -16,10 +16,12 @@ public interface MapsCallback {
     interface Presenter{
         public void showResults();
         public void showErrors();
-        public void getNetworkStatus(Activity activity);
+        public void setTrackingEnabled(Activity activity);
+        public void setTrackingDisabled(Activity activity);
     }
     interface Model{
-        public void getNetworkStatus(Activity activity);
+        public void setTrackingEnabled(Activity activity);
+        public void setTrackingDisabled(Activity activity);
 
     }
 

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cesarsmith.thefloowtest.R;
-import com.cesarsmith.thefloowtest.background.databases.pojos.Journey;
+import com.cesarsmith.thefloowtest.background.pojos.Journey;
 
 import java.util.List;
 
