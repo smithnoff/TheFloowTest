@@ -92,7 +92,7 @@ public class DBManager {
         cursor = database.query(journey, new String[]{"*"}, null, null, null, null, null);
         PolylineOptions polylineOptions = new PolylineOptions();
         if (cursor != null) {
-            cursor.moveToFirst();
+            cursor.moveToLast();
             do {
                 journeyList.add(new Journey(
                         cursor.getString(cursor.getColumnIndex(start_time)),
@@ -103,7 +103,7 @@ public class DBManager {
                         cursor.getString(cursor.getColumnIndex(place)),
                         polylineOptions.addAll(PolyUtil.decode(cursor.getString(cursor.getColumnIndex(track)))),
                         cursor.getString(cursor.getColumnIndex(_id))));
-            } while (cursor.moveToNext());
+            } while (cursor.moveToPrevious());
             cursor.close();
         }
 

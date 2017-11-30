@@ -33,19 +33,22 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-       MapsCallback.View {
+        MapsCallback.View {
 
     private GoogleMap mMap;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     MapsCallback.Presenter presenter;
     Switch trackSwitch;
+    Polyline userTrack;
     PolylineOptions polylineOptions;
-    String startTime="",endTime="";
+    String startTime = "", endTime = "";
     DBManager manager;
+    private MarkerOptions markerOptions;
 
 
     @Override
@@ -54,22 +57,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         presenter = new MapsPresenter(this);
-        manager=new DBManager(this);
-        trackSwitch = (Switch) findViewById(R.id.track_switch);
-        trackSwitch.setOnCheckedChangeListener(switchListener);
-        polylineOptions=new PolylineOptions().width(3).color(Color.MAGENTA).geodesic(true);
+        manager = new DBManager(this);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
@@ -79,68 +79,90 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.setMyLocationEnabled(true);
             } else {
                 //Request Location Permission
+                //todo:request permisions
+
             }
         } else {
             mMap.setMyLocationEnabled(true);
         }
-
+        inicializeComponents();
     }
 
-
-
-    CompoundButton.OnCheckedChangeListener switchListener=new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            if (b){
-                startTime= TimeDateUtils.getStartAndEndTime();
-                trackingMethod(mMap.getMyLocation());
-                presenter.setTrackingEnabled(MapsActivity.this);
-                registerReceiver(receiver,new IntentFilter("com.cesarsmith.thefloowtest.TRACK_RRCEIVER"));
-            }else {
-                presenter.setTrackingDisabled(MapsActivity.this);
-                unregisterReceiver(receiver);
-                drawMap(polylineOptions);
-               endTime= TimeDateUtils.getStartAndEndTime();
-                CustomDialogs.saveJourneyDialog(MapsActivity.this,
-                        new Journey(startTime,endTime,TimeDateUtils.getCurrentDate(),"18.0",TimeDateUtils.getDayWeek(),"Sheff River",polylineOptions,""));
-
-
-            }
-        }
-    };
-    public void trackingMethod(Location location){
-        mLastLocation = location;
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
-        }
-
-        //Place current location marker
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
+    public void inicializeComponents() {
+        markerOptions = new MarkerOptions();
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
+        trackSwitch = (Switch) findViewById(R.id.track_switch);
+        polylineOptions = new PolylineOptions().width(3).color(Color.MAGENTA).geodesic(true);
+        trackSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean trackOn) {
+                if (trackOn){
+                    startTracking();
+                }else{
+                    stopTracking();
+                }
 
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
-        polylineOptions.add(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
-       // drawMap(mLastLocation);
+            }
+        });
+
+
     }
-    BroadcastReceiver receiver=new BroadcastReceiver() {
+
+
+
+    public void startTracking(){
+        TimeDateUtils.startTimer();
+        startTime = TimeDateUtils.getStartAndEndTime();
+        trackingMethod(mMap.getMyLocation());
+        presenter.setTrackingEnabled(MapsActivity.this);
+        registerReceiver(receiver, new IntentFilter("com.cesarsmith.thefloowtest.TRACK_RRCEIVER"));
+    }
+
+
+    public void stopTracking(){
+        presenter.setTrackingDisabled(MapsActivity.this);
+        unregisterReceiver(receiver);
+        drawMap(polylineOptions);
+        mMap.addMarker(markerOptions.position(polylineOptions.getPoints().get(0)));
+        endTime = TimeDateUtils.getStartAndEndTime();
+        CustomDialogs.saveJourneyDialog(MapsActivity.this,
+                new Journey(startTime, endTime, TimeDateUtils.getCurrentDate(), TimeDateUtils.stopTimer(), TimeDateUtils.getDayWeek(), "Sheff River", polylineOptions, ""));
+
+    }
+
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Location location=intent.getBundleExtra("bundle").getParcelable("location");
+            Location location = intent.getBundleExtra("bundle").getParcelable("location");
             trackingMethod(location);
         }
     };
 
+    public void trackingMethod(Location location) {
+        mLastLocation = location;
+
+        if (mCurrLocationMarker != null) {
+            mCurrLocationMarker.remove();
+        }
+
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        markerOptions.position(latLng);
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
+        polylineOptions.add(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
+        drawMap(polylineOptions);
+
+    }
 
 
-     public void drawMap(PolylineOptions options){
-         mMap.addPolyline(options);
+    public void drawMap(PolylineOptions options) {
+        mMap.clear();
+        mMap.addPolyline(options);
 
-     }
+    }
+
     @Override
     public void showResults() {
 
@@ -149,5 +171,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void showErrors() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (polylineOptions!=null)
+        drawMap(polylineOptions);
     }
 }
