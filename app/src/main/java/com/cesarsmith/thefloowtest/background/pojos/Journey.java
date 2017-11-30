@@ -8,18 +8,18 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class Journey {
 
+    private  String jId;
     private  String startTime;
     private  String endTime;
-
-
-
     private  String date;
     private  String totalTime;
     private  String dayWeek;
     private String place;
     private PolylineOptions track;
 
-    public Journey(String startTime, String endTime, String date, String totalTime, String dayWeek, String place, PolylineOptions track) {
+
+
+    public Journey(String startTime, String endTime, String date, String totalTime, String dayWeek, String place, PolylineOptions track, String jId) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
@@ -27,6 +27,8 @@ public class Journey {
         this.dayWeek = dayWeek;
         this.place = place;
         this.track = track;
+        this.jId=jId;
+
     }
 
     public String getStartTime() {
@@ -82,5 +84,12 @@ public class Journey {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+    public String getjId() {
+        return jId;
+    }
+
+    public void setjId(String jId) {
+        this.jId = jId;
     }
 }

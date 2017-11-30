@@ -1,35 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
     android:layout_width="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
-    android:layout_height="200dp">
-    <RelativeLayout
-        android:elevation="4dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="#ffffff"
-            android:text="Journey and date"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Here the journey info"
-            android:layout_centerInParent="true"/>
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <Button
-            android:layout_width="wrap_content"
 
-            android:layout_height="58dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="view on map" />
-    </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:padding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/journey_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:text="Journey and date"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_gravity="center_horizontal"
+                     android:layout_marginTop="5dp"
+                    android:id="@+id/journey_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Here the journey info" />
+
+                <TableRow
+                    android:layout_marginTop="5dp"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:text="Star Time"
+                        android:gravity="center_horizontal"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:text="End Time"
+                        android:gravity="center_horizontal"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:text="Total Time"
+                        android:gravity="center_horizontal"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="3">
+
+                    <TextView
+                         android:id="@+id/journey_start"
+                        android:gravity="center_horizontal"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+                    <TextView
+                         android:id="@+id/journey_end"
+                        android:gravity="center_horizontal"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                         android:id="@+id/journey_total"
+                        android:gravity="center_horizontal"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                </TableRow>
+
+                <Button
+                    android:layout_marginTop="5dp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/journey_map_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="58dp"
+
+                    android:text="view on map" />
+            </LinearLayout>
+
+    </android.support.v7.widget.CardView>

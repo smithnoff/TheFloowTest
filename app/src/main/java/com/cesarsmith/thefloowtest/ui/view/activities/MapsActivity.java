@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.cesarsmith.thefloowtest.R;
+import com.cesarsmith.thefloowtest.background.database.implementations.DBManager;
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
 import com.cesarsmith.thefloowtest.ui.presenter.callbacks.MapsCallback;
 import com.cesarsmith.thefloowtest.ui.presenter.interactors.MapsPresenter;
@@ -44,6 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Switch trackSwitch;
     PolylineOptions polylineOptions;
     String startTime="",endTime="";
+    DBManager manager;
 
 
     @Override
@@ -52,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         presenter = new MapsPresenter(this);
+        manager=new DBManager(this);
         trackSwitch = (Switch) findViewById(R.id.track_switch);
         trackSwitch.setOnCheckedChangeListener(switchListener);
         polylineOptions=new PolylineOptions().width(3).color(Color.MAGENTA).geodesic(true);
@@ -99,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 drawMap(polylineOptions);
                endTime= TimeDateUtils.getStartAndEndTime();
                 CustomDialogs.saveJourneyDialog(MapsActivity.this,
-                        new Journey(startTime,endTime,"09/11/2017","18.0","Miercoles","La estancia",polylineOptions));
+                        new Journey(startTime,endTime,TimeDateUtils.getCurrentDate(),"18.0",TimeDateUtils.getDayWeek(),"Sheff River",polylineOptions,""));
 
 
             }

@@ -55,10 +55,10 @@ public class TrackerService extends Service implements GoogleApiClient.Connectio
                 .addOnConnectionFailedListener(TrackerService.this).build();
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(15000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        mLocationRequest.setFastestInterval(10000);
+        mLocationRequest.setFastestInterval(3000);
         mLocationClient.connect();
         return Service.START_NOT_STICKY;
     }
