@@ -8,4 +8,10 @@
     <string name="title_activity_maps">Map</string>
     <string name="menu_map">Map</string>
     <string name="menu_journeys">Journeys</string>
+    <string name="title_save_dialog">Attention!</string>
+    <string name="save_journey_msg">Do you want to save this journey?</string>
+    <string name="dialog_save">save</string>
+    <string name="dialog_no_save">don`t save</string>
+    <string name="dialog_cancel">cancel</string>
+    <string name="no_journey">No journeys registered</string>
 </resources>

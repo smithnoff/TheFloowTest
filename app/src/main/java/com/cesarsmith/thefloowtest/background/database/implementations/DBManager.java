@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
+import com.cesarsmith.thefloowtest.background.pojos.Place;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 
@@ -20,7 +21,7 @@ import java.util.List;
 public class DBManager {
 
 
-    private static String journey = "journey";
+    private static String journeysTable = "JOURNEYS";
     private static String _id = "id";
     private static String start_time = "start_time";
     private static String end_time = "end_time";
@@ -29,11 +30,11 @@ public class DBManager {
     private static String total_time = "total_time";
     private static String place = "place";
     private static String track = "track";
-    public static final String createTableJourney = "CREATE TABLE " + journey + " ( " + _id + " INTEGER PRIMARY KEY AUTOINCREMENT, " + start_time + " TEXT, " + end_time + " TEXT, " + date + " TEXT, " + day_week + " TEXT, " + total_time + " REAL, " + place + " TEXT," + track + " TEXT )";
-    private static String places = "places";
+    public static final String createTableJourney = "CREATE TABLE " + journeysTable + " ( " + _id + " INTEGER PRIMARY KEY AUTOINCREMENT, " + start_time + " TEXT, " + end_time + " TEXT, " + date + " TEXT, " + day_week + " TEXT, " + total_time + " REAL, " + place + " TEXT," + track + " TEXT )";
+    private static String placesTable = "PLACES";
     private static String pId = "pid";
     private static String place_name = "place_name";
-    public static final String createTablePlaces = "CREATE TABLE " + places + " ( " + pId + " TEXT, " + place_name + " TEXT, PRIMARY KEY(" + pId + ") )";
+    public static final String createTablePlaces = "CREATE TABLE " + placesTable + " ( " + pId + " TEXT, " + place_name + " TEXT, PRIMARY KEY(" + pId + ") )";
 
     SQLiteDatabase database;
     DBHelper dbHelper;
@@ -73,14 +74,15 @@ public class DBManager {
     public void insertJourney(Journey userJourney) {
         opendWriteDB();
         if (database != null)
-            database.insert(journey, null, setJourney(userJourney));
+            database.insert(journeysTable, null, setJourney(userJourney));
         closeDB();
 
     }
 
     public void deleteDB() {
         opendWriteDB();
-        database.delete(journey, null, null);
+        database.delete(journeysTable, null, null);
+        database.delete(placesTable, null, null);
 
     }
 
@@ -89,21 +91,23 @@ public class DBManager {
         List<Journey> journeyList = new ArrayList<>();
         Cursor cursor;
         openReadDB();
-        cursor = database.query(journey, new String[]{"*"}, null, null, null, null, null);
+        cursor = database.query(journeysTable, new String[]{"*"}, null, null, null, null, null);
         PolylineOptions polylineOptions = new PolylineOptions();
         if (cursor != null) {
-            cursor.moveToLast();
-            do {
-                journeyList.add(new Journey(
-                        cursor.getString(cursor.getColumnIndex(start_time)),
-                        cursor.getString(cursor.getColumnIndex(end_time)),
-                        cursor.getString(cursor.getColumnIndex(date)),
-                        cursor.getString(cursor.getColumnIndex(total_time)),
-                        cursor.getString(cursor.getColumnIndex(day_week)),
-                        cursor.getString(cursor.getColumnIndex(place)),
-                        polylineOptions.addAll(PolyUtil.decode(cursor.getString(cursor.getColumnIndex(track)))),
-                        cursor.getString(cursor.getColumnIndex(_id))));
-            } while (cursor.moveToPrevious());
+            if (cursor.getCount()>0) {
+                cursor.moveToLast();
+                do {
+                    journeyList.add(new Journey(
+                            cursor.getString(cursor.getColumnIndex(start_time)),
+                            cursor.getString(cursor.getColumnIndex(end_time)),
+                            cursor.getString(cursor.getColumnIndex(date)),
+                            cursor.getString(cursor.getColumnIndex(total_time)),
+                            cursor.getString(cursor.getColumnIndex(day_week)),
+                            cursor.getString(cursor.getColumnIndex(place)),
+                            polylineOptions.addAll(PolyUtil.decode(cursor.getString(cursor.getColumnIndex(track)))),
+                            cursor.getString(cursor.getColumnIndex(_id))));
+                } while (cursor.moveToPrevious());
+            }
             cursor.close();
         }
 
@@ -112,7 +116,37 @@ public class DBManager {
 
     }
 
-    private class AsyncRetrieve extends AsyncTask<Void, Void, Void> {
+    public void insertPlace(String upID, String placeName) {
+        opendWriteDB();
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(pId,upID);
+        contentValues.put(place_name,placeName);
+        database.insert(placesTable,null,contentValues);
+    }
+    public List<Place> getUserPlaces() {
+        List<Place> placeList=new ArrayList<>();
+
+        Cursor cursor;
+        openReadDB();
+        cursor = database.query(placesTable, new String[]{"*"}, null, null, null, null, null);
+        if (cursor != null) {
+            if (cursor.getCount()>0){
+            cursor.moveToFirst();
+            do {
+                placeList.add(new Place(cursor.getString(cursor.getColumnIndex(pId)),cursor.getString(cursor.getColumnIndex(place_name))));
+            } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+
+
+        return  placeList;
+    }
+
+
+        private class AsyncRetrieve extends AsyncTask<Void, Void, Void> {
         Context context;
 
         public AsyncRetrieve(Context context) {

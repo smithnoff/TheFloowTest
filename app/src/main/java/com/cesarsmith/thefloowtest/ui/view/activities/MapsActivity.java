@@ -94,6 +94,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         trackSwitch = (Switch) findViewById(R.id.track_switch);
         polylineOptions = new PolylineOptions().width(3).color(Color.MAGENTA).geodesic(true);
+
+
         trackSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean trackOn) {
@@ -177,6 +179,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         if (polylineOptions!=null)
-        drawMap(polylineOptions);
+            drawMap(polylineOptions);
     }
 }

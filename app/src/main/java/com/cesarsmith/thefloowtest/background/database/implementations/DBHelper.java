@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    private static final String name="theFloowTest";
+    private static final String name="theFloowTest2";
     private static final int version=1;
 
     public DBHelper(Context context) {

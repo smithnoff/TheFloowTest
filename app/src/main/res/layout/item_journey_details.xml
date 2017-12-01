@@ -20,6 +20,7 @@
                     android:layout_height="30dp"
                     android:background="@color/colorPrimaryDark"
                     android:gravity="center"
+                    android:textSize="18sp"
                     android:text="Journey and date"
                     android:textColor="#ffffff" />
 
@@ -27,6 +28,7 @@
                     android:layout_gravity="center_horizontal"
                      android:layout_marginTop="5dp"
                     android:id="@+id/journey_date"
+                    android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Here the journey info" />
@@ -39,7 +41,7 @@
                     android:weightSum="3">
 
                     <TextView
-                        android:text="Star Time"
+                        android:text="Start Time"
                         android:gravity="center_horizontal"
                         android:textSize="20sp"
                         android:textColor="@color/colorPrimary"

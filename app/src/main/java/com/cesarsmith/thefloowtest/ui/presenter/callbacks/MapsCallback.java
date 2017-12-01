@@ -2,6 +2,8 @@ package com.cesarsmith.thefloowtest.ui.presenter.callbacks;
 
 import android.app.Activity;
 
+import com.cesarsmith.thefloowtest.background.pojos.Journey;
+
 /**
  * Created by Softandnet on 27/11/2017.
  */

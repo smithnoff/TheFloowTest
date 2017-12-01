@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:background="@color/colorCardBg"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+  <TextView
+      android:id="@+id/dialog_title"
+      android:text="@string/title_save_dialog"
+      android:gravity="center"
+      android:textStyle="bold"
+      android:textSize="20sp"
+      android:textColor="@color/white"
+      android:background="@color/colorPrimaryDark"
+      android:layout_width="match_parent"
+      android:layout_height="48dp" />
+    <TextView
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_journey_msg"
+        android:layout_gravity="center"/>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/places_container"
+        android:padding="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select a place:"
+        />
+    <Spinner
+        android:id="@+id/dialog_spinner_places"
+        android:spinnerMode="dropdown"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:padding="3dp"
+        android:textColorHint="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/dialog_new_place"
+            android:textColorHint="#000000"
+            android:hint="New place "
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.design.widget.TextInputLayout>
+    <TableRow
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+        <Button
+            android:id="@+id/dialog_save_bt"
+            android:text="@string/dialog_save"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/dialog_dont_save_bt"
+            android:text="@string/dialog_no_save"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_weight="1"/>
+       />
+    </TableRow>
+</LinearLayout>
+</android.support.constraint.ConstraintLayout>

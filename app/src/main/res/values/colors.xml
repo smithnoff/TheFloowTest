@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#309b9f</color>
     <color name="colorAccent">#cefe3d</color>
     <color name="colorCardBg">#FFEBE7E7</color>
+    <color name="white">#FFFFFF</color>
+
 </resources>

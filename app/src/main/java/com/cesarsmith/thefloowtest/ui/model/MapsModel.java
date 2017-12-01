@@ -14,9 +14,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.cesarsmith.thefloowtest.background.pojos.Journey;
 import com.cesarsmith.thefloowtest.background.services.TrackerService;
 import com.cesarsmith.thefloowtest.ui.presenter.callbacks.MapsCallback;
 import com.cesarsmith.thefloowtest.ui.view.activities.MapsActivity;
+import com.cesarsmith.thefloowtest.ui.view.utils.CustomDialogs;
 
 
 /**
@@ -35,11 +37,13 @@ public class MapsModel implements MapsCallback.Model {
     @Override
     public void setTrackingEnabled(Activity activity) {
      activity.startService(new Intent(activity,TrackerService.class));
+
     }
 
     @Override
     public void setTrackingDisabled(Activity activity) {
         activity.stopService(new Intent(activity,TrackerService.class));
+
 
     }
 
