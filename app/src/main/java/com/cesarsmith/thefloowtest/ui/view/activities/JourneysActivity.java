@@ -4,8 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.cesarsmith.thefloowtest.R;
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
@@ -25,6 +27,10 @@ public class JourneysActivity extends AppCompatActivity implements JourneysCallb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null) {
+           getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }
         setContentView(R.layout.activity_journeys);
         presenter=new JourneysPresenter(this);
         recyclerView=(RecyclerView)findViewById(R.id.recycler_journeys);
@@ -39,6 +45,23 @@ public class JourneysActivity extends AppCompatActivity implements JourneysCallb
 
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigateUp() {
+        onBackPressed();
+        return super.onNavigateUp();
     }
 
     @Override

@@ -13,8 +13,11 @@ import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.Toolbar;
 
 import com.cesarsmith.thefloowtest.R;
 import com.cesarsmith.thefloowtest.background.database.implementations.DBManager;
@@ -48,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     PolylineOptions polylineOptions;
     String startTime = "", endTime = "";
     DBManager manager;
+    ImageButton backButton;
     private MarkerOptions markerOptions;
 
 
@@ -58,6 +62,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         presenter = new MapsPresenter(this);
         manager = new DBManager(this);
+        backButton=(ImageButton)findViewById(R.id.toolbar_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -65,6 +76,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    @Override
+    public boolean onNavigateUp() {
+        onBackPressed();
+        return super.onNavigateUp();
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -93,15 +109,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.title("Current Position");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         trackSwitch = (Switch) findViewById(R.id.track_switch);
-        polylineOptions = new PolylineOptions().width(3).color(Color.MAGENTA).geodesic(true);
-
 
         trackSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean trackOn) {
-                if (trackOn){
+                if (trackOn) {
                     startTracking();
-                }else{
+                } else {
                     stopTracking();
                 }
 
@@ -112,9 +126,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
-    public void startTracking(){
+    public void startTracking() {
+        mMap.clear();
         TimeDateUtils.startTimer();
+        polylineOptions = new PolylineOptions().width(4).color(Color.MAGENTA).geodesic(true);
         startTime = TimeDateUtils.getStartAndEndTime();
         trackingMethod(mMap.getMyLocation());
         presenter.setTrackingEnabled(MapsActivity.this);
@@ -122,14 +137,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    public void stopTracking(){
+    public void stopTracking() {
         presenter.setTrackingDisabled(MapsActivity.this);
         unregisterReceiver(receiver);
         drawMap(polylineOptions);
-        mMap.addMarker(markerOptions.position(polylineOptions.getPoints().get(0)));
+        mMap.addMarker(markerOptions.position(polylineOptions.getPoints().get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.addMarker(markerOptions.position(polylineOptions.getPoints().get(polylineOptions.getPoints().size()-1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         endTime = TimeDateUtils.getStartAndEndTime();
         CustomDialogs.saveJourneyDialog(MapsActivity.this,
                 new Journey(startTime, endTime, TimeDateUtils.getCurrentDate(), TimeDateUtils.stopTimer(), TimeDateUtils.getDayWeek(), "Sheff River", polylineOptions, ""));
+        polylineOptions=null;
+
+
 
     }
 
@@ -178,7 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        if (polylineOptions!=null)
+        if (polylineOptions != null)
             drawMap(polylineOptions);
     }
 }

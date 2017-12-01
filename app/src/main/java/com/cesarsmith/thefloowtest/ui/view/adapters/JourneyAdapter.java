@@ -1,7 +1,9 @@
 package com.cesarsmith.thefloowtest.ui.view.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.cesarsmith.thefloowtest.R;
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
+import com.cesarsmith.thefloowtest.ui.view.utils.CustomDialogs;
 
 import java.util.List;
 
@@ -37,12 +40,19 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.JourneyV
     }
 
     @Override
-    public void onBindViewHolder(JourneyViewHolder holder, int position) {
+    public void onBindViewHolder(JourneyViewHolder holder, final int position) {
        holder.journeyPlace.setText(journeyList.get(position).getPlace());
        holder.journeyDate.setText("Date: "+journeyList.get(position).getDate());
        holder.journeyStart.setText(journeyList.get(position).getStartTime());
        holder.journeyEnd.setText(journeyList.get(position).getEndTime());
        holder.journeyTotal.setText(journeyList.get(position).getTotalTime());
+       holder.journeyViewMap.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Log.e("JOURNEY SELECTED", "onClick: "+position );
+               CustomDialogs.dialogMapJourney((Activity)context,journeyList.get(position));
+           }
+       });
 
 
     }
