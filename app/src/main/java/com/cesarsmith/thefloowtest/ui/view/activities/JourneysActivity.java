@@ -58,11 +58,6 @@ public class JourneysActivity extends AppCompatActivity implements JourneysCallb
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigateUp() {
-        onBackPressed();
-        return super.onNavigateUp();
-    }
 
     @Override
     public void showResults(List<Journey> journeyList) {

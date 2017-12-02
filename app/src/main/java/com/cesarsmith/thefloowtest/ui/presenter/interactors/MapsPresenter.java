@@ -1,10 +1,18 @@
 package com.cesarsmith.thefloowtest.ui.presenter.interactors;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
@@ -25,18 +33,12 @@ public class MapsPresenter implements MapsCallback.Presenter {
         model = new MapsModel(this);
     }
 
-    @Override
-    public void showResults() {
-        if (view != null) {
-            view.showResults();
-        }
 
-    }
 
     @Override
-    public void showErrors() {
+    public void showErrors(String msg) {
         if (view != null) {
-            view.showErrors();
+            view.showErrors(msg);
         }
     }
 
@@ -51,6 +53,8 @@ public class MapsPresenter implements MapsCallback.Presenter {
     public void setTrackingDisabled(Activity activity) {
         model.setTrackingDisabled(activity);
     }
+
+
 
 
 

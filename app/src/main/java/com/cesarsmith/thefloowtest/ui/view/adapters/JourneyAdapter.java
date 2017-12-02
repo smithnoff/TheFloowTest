@@ -49,8 +49,9 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.JourneyV
        holder.journeyViewMap.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Log.e("JOURNEY SELECTED", "onClick: "+position );
                CustomDialogs.dialogMapJourney((Activity)context,journeyList.get(position));
+               Log.e("JOURNEY SELECTED", "onClick: "+position+" "+journeyList.get(position).getTrack() );
+
            }
        });
 

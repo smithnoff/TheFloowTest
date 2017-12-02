@@ -36,16 +36,20 @@ public class MapsModel implements MapsCallback.Model {
 
     @Override
     public void setTrackingEnabled(Activity activity) {
-     activity.startService(new Intent(activity,TrackerService.class));
+
+
+        if (ActivityCompat.checkSelfPermission(activity,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            activity.startService(new Intent(activity, TrackerService.class));
+        }else{
+            presenter.showErrors("Location permissions needed for this feature, allows the app to location access?");
+        }
 
     }
 
     @Override
-    public void setTrackingDisabled(Activity activity) {
-        activity.stopService(new Intent(activity,TrackerService.class));
-
-
-    }
+    public void setTrackingDisabled(Activity activity) {activity.stopService(new Intent(activity,TrackerService.class));}
 
 
 }

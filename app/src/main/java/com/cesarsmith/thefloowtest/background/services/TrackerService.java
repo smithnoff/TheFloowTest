@@ -1,6 +1,7 @@
 package com.cesarsmith.thefloowtest.background.services;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.IntentService;
 import android.app.Service;
@@ -48,17 +49,14 @@ public class TrackerService extends Service implements GoogleApiClient.Connectio
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // TODO do something useful
-        Toast.makeText(this, "onStartCommand", Toast.LENGTH_SHORT).show();
         mLocationClient = new GoogleApiClient.Builder(TrackerService.this)
                 .addApi(LocationServices.API).addConnectionCallbacks(TrackerService.this)
                 .addOnConnectionFailedListener(TrackerService.this).build();
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(5000);
+        mLocationRequest.setInterval(60000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
-        mLocationRequest.setFastestInterval(3000);
+        mLocationRequest.setFastestInterval(10000);
         mLocationClient.connect();
         return Service.START_NOT_STICKY;
     }
@@ -83,24 +81,14 @@ public class TrackerService extends Service implements GoogleApiClient.Connectio
         Toast.makeText(this, "Connection failed", Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onConnected(Bundle arg0) {
         // TODO Auto-generated method stub
         Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
-        //if(servicesConnected()) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mLocationClient, mLocationRequest, this);
-        //}
+
 
     }
 
@@ -123,8 +111,7 @@ public class TrackerService extends Service implements GoogleApiClient.Connectio
         super.onDestroy();
         LocationServices.FusedLocationApi.removeLocationUpdates(mLocationClient, this);
         mLocationClient.disconnect();
-        Log.e(TAG, "onDestroy: mori loco" );
+        Log.e(TAG, "onDestroy: dead listener" );
 
     }
-    //TODO:  recuerda verificar como hacer para evitar que deje de rastrear cuando apaga la pantalla
 }

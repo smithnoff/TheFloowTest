@@ -3,6 +3,7 @@ package com.cesarsmith.thefloowtest.ui.presenter.callbacks;
 import android.app.Activity;
 
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
+import com.google.android.gms.maps.GoogleMap;
 
 /**
  * Created by Softandnet on 27/11/2017.
@@ -11,19 +12,17 @@ import com.cesarsmith.thefloowtest.background.pojos.Journey;
 public interface MapsCallback {
 
     interface View{
-        public void showResults();
-        public void showErrors();
+         void showErrors(String msg);
 
     }
     interface Presenter{
-        public void showResults();
-        public void showErrors();
-        public void setTrackingEnabled(Activity activity);
-        public void setTrackingDisabled(Activity activity);
+         void showErrors(String msg);
+         void setTrackingEnabled(Activity activity);
+         void setTrackingDisabled(Activity activity);
     }
     interface Model{
-        public void setTrackingEnabled(Activity activity);
-        public void setTrackingDisabled(Activity activity);
+         void setTrackingEnabled(Activity activity);
+         void setTrackingDisabled(Activity activity);
 
     }
 

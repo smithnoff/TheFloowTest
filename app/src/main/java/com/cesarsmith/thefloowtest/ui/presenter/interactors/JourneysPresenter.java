@@ -1,6 +1,7 @@
 package com.cesarsmith.thefloowtest.ui.presenter.interactors;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
 import com.cesarsmith.thefloowtest.ui.model.JourneysModel;
@@ -37,7 +38,10 @@ public class JourneysPresenter implements JourneysCallback.Presenter {
     }
 
     @Override
-    public void loadJourneys(Activity activity) {
+    public void loadJourneys(final Activity activity) {
         model.loadJourneys(activity);
+
+
+
     }
 }

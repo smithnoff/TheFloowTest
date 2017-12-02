@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_slideshow) {
+            startDelayedActivity(SettingsActivity.class);
 
         }
 
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, activity));
 
             }
-        }, 210);
+        }, 230);
     }
 
 

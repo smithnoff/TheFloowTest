@@ -52,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String startTime = "", endTime = "";
     DBManager manager;
     ImageButton backButton;
+    boolean isReceiverOn;
     private MarkerOptions markerOptions;
 
 
@@ -106,10 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void inicializeComponents() {
         markerOptions = new MarkerOptions();
-        markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         trackSwitch = (Switch) findViewById(R.id.track_switch);
-
         trackSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean trackOn) {
@@ -127,6 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void startTracking() {
+        isReceiverOn=true;
         mMap.clear();
         TimeDateUtils.startTimer();
         polylineOptions = new PolylineOptions().width(4).color(Color.MAGENTA).geodesic(true);
@@ -138,11 +137,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void stopTracking() {
+        isReceiverOn=false;
         presenter.setTrackingDisabled(MapsActivity.this);
         unregisterReceiver(receiver);
         drawMap(polylineOptions);
         mMap.addMarker(markerOptions.position(polylineOptions.getPoints().get(0)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-        mMap.addMarker(markerOptions.position(polylineOptions.getPoints().get(polylineOptions.getPoints().size()-1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.addMarker(markerOptions.position(polylineOptions.getPoints().get(polylineOptions.getPoints().size()-1)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         endTime = TimeDateUtils.getStartAndEndTime();
         CustomDialogs.saveJourneyDialog(MapsActivity.this,
                 new Journey(startTime, endTime, TimeDateUtils.getCurrentDate(), TimeDateUtils.stopTimer(), TimeDateUtils.getDayWeek(), "Sheff River", polylineOptions, ""));
@@ -184,14 +184,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    @Override
-    public void showResults() {
 
-    }
 
     @Override
-    public void showErrors() {
-
+    public void showErrors(String msg) {
+       CustomDialogs.errorDialog(this,msg);
     }
 
     @Override
@@ -199,5 +196,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onResume();
         if (polylineOptions != null)
             drawMap(polylineOptions);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(isReceiverOn)
+        unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!isReceiverOn)
+        super.onBackPressed();
+        else
+            moveTaskToBack(true);
     }
 }

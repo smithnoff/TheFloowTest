@@ -92,11 +92,12 @@ public class DBManager {
         Cursor cursor;
         openReadDB();
         cursor = database.query(journeysTable, new String[]{"*"}, null, null, null, null, null);
-        PolylineOptions polylineOptions = new PolylineOptions();
         if (cursor != null) {
             if (cursor.getCount()>0) {
                 cursor.moveToLast();
                 do {
+                    PolylineOptions polylineOptions = new PolylineOptions();
+
                     journeyList.add(new Journey(
                             cursor.getString(cursor.getColumnIndex(start_time)),
                             cursor.getString(cursor.getColumnIndex(end_time)),
@@ -110,7 +111,6 @@ public class DBManager {
             }
             cursor.close();
         }
-
 
         return journeyList;
 

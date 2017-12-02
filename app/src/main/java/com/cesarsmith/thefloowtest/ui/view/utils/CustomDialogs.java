@@ -1,11 +1,14 @@
 package com.cesarsmith.thefloowtest.ui.view.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
@@ -81,7 +84,7 @@ public class CustomDialogs {
                 dialog.dismiss();
             }
         });
-
+        dialog.setCancelable(false);
         dialog.show();
     }
 
@@ -124,24 +127,29 @@ public class CustomDialogs {
         journeyStart.setText(journey.getStartTime());
         journeyEnd.setText(journey.getEndTime());
         journeyTotal.setText(journey.getTotalTime());
-
+        journeyDistance.setText(DistanceTimeUtils.getDistance(journey.getTrack()));
+        journeySpeed.setText(DistanceTimeUtils.getSpeed(journey.getTotalTime(), journeyDistance.getText().toString()) + "Km/h");
+        journeyDistance.setText(journeyDistance.getText().toString()+"Km");
+        journeyStoppedTime.setText(DistanceTimeUtils.getStopTime(journey.getTrack()));
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(final GoogleMap googleMap) {
                 GoogleMap mMap;
                 mMap = googleMap;
-                mMap.clear();
+
                 MarkerOptions markerOptions = new MarkerOptions();
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                mMap.clear();
                 int lastPoint = journey.getTrack().getPoints().size() - 1;
                 LatLng userPositions = new LatLng(journey.getTrack().getPoints().get(0).latitude, journey.getTrack().getPoints().get(0).longitude);
                 markerOptions.position(userPositions).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Start Point");
                 mMap.addMarker(markerOptions);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userPositions, 15));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userPositions, 19));
                 userPositions = new LatLng(journey.getTrack().getPoints().get(lastPoint).latitude, journey.getTrack().getPoints().get(lastPoint).longitude);
                 markerOptions.position(userPositions).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).title("End Point");
                 mMap.addMarker(markerOptions);
                 mMap.getUiSettings().setZoomControlsEnabled(true);
+
                 mMap.addPolyline(journey.getTrack().width(4).geodesic(true).color(Color.MAGENTA));
             }
         });
@@ -156,6 +164,28 @@ public class CustomDialogs {
         dialog.show();
 
     }
+      public static void errorDialog(final Activity activity, String msg){
+           final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(activity);
+        builder.setTitle("Warning!");
+        builder.setMessage(msg);
+        builder.setNeutralButton("Allow", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                activity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                activity.recreate();
+
+            }
+        }).setNegativeButton("Deny", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                activity.finish();
+            }
+        });
+      }
 
 }
 
