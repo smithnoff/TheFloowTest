@@ -77,9 +77,11 @@ public class CustomDialogs {
 
                 if (dialogNewPlace.getText().toString().isEmpty() && dialogSpinnerPlaces.getSelectedItem() != null)
                     //setting place if there no new place typed by the user, if no spinner or text type default journey place is saved
+                    if (dialogSpinnerPlaces.getAdapter().getCount()>0)
                     journey.setPlace(dialogSpinnerPlaces.getSelectedItem().toString());
                 else {
                     //saving the new place typed by the user
+                    if (!dialogNewPlace.getText().toString().isEmpty())
                     journey.setPlace(dialogNewPlace.getText().toString());
                     //creating a custom id for the user place
                     manager.insertPlace(UUID.randomUUID().toString(), dialogNewPlace.getText().toString());
