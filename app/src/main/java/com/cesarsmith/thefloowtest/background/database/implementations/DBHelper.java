@@ -7,12 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Softandnet on 29/11/2017.
  */
-
+/*This class is to create the tables for the database */
 public class DBHelper extends SQLiteOpenHelper {
 
 
-    private static final String name="theFloowTest2";
-    private static final int version=1;
+    private static final String name = "theFloowTest";
+    private static final int version = 1;
 
     public DBHelper(Context context) {
         super(context, name, null, version);
@@ -20,8 +20,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-    sqLiteDatabase.execSQL(DBManager.createTableJourney);
-    sqLiteDatabase.execSQL(DBManager.createTablePlaces);
+        //Journey table creation query
+        sqLiteDatabase.execSQL(DBManager.createTableJourney);
+        //Places table creation query
+        sqLiteDatabase.execSQL(DBManager.createTablePlaces);
     }
 
     @Override

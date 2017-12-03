@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.cesarsmith.thefloowtest.R;
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
 import com.cesarsmith.thefloowtest.background.services.TrackerService;
 import com.cesarsmith.thefloowtest.ui.presenter.callbacks.MapsCallback;
@@ -43,7 +44,7 @@ public class MapsModel implements MapsCallback.Model {
                 == PackageManager.PERMISSION_GRANTED) {
             activity.startService(new Intent(activity, TrackerService.class));
         }else{
-            presenter.showErrors("Location permissions needed for this feature, allows the app to location access?");
+            presenter.showErrors(activity.getString(R.string.location_permission));
         }
 
     }

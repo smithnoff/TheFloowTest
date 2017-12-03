@@ -8,6 +8,13 @@
     tools:context="com.cesarsmith.thefloowtest.ui.view.activities.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/floow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

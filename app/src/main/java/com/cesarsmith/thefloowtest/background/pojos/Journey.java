@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 /**
  * Created by Softandnet on 27/11/2017.
  */
-
+/*Jouney model data*/
 public class Journey {
 
     private  String jId;

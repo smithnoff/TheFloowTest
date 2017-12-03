@@ -1,117 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="wrap_content">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-            <LinearLayout
-                android:padding="5dp"
-                android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/journey_place"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:text="Journey and date"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/journey_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="Here the journey info"
+            android:textStyle="bold" />
+
+        <TableRow
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/start_time"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/journey_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:background="@color/colorPrimaryDark"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    android:text="Journey and date"
-                    android:textColor="#ffffff" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/end_time"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_gravity="center_horizontal"
-                     android:layout_marginTop="5dp"
-                    android:id="@+id/journey_date"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Here the journey info" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="@string/total_time"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <TableRow
-                    android:layout_marginTop="5dp"
+        </TableRow>
 
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="3">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="3">
 
-                    <TextView
-                        android:text="Start Time"
-                        android:gravity="center_horizontal"
-                        android:textSize="20sp"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-                    <TextView
-                        android:text="End Time"
-                        android:gravity="center_horizontal"
-                        android:textSize="20sp"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/journey_start"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                    <TextView
-                        android:text="Total Time"
-                        android:gravity="center_horizontal"
-                        android:textSize="20sp"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/journey_end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                </TableRow>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="3">
+            <TextView
+                android:id="@+id/journey_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                    <TextView
-                         android:id="@+id/journey_start"
-                        android:gravity="center_horizontal"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-                    <TextView
-                         android:id="@+id/journey_end"
-                        android:gravity="center_horizontal"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+        </TableRow>
 
-                    <TextView
-                         android:id="@+id/journey_total"
-                        android:gravity="center_horizontal"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+        <Button
+            android:id="@+id/journey_map_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="@string/view_map" />
+    </LinearLayout>
 
-                </TableRow>
-
-                <Button
-                    android:layout_marginTop="5dp"
-
-                    android:layout_gravity="center_horizontal"
-                    android:id="@+id/journey_map_bt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="58dp"
-
-                    android:text="view on map" />
-            </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>

@@ -47,8 +47,10 @@
             android:name=".ui.view.activities.MapsActivity"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.activities.JourneysActivity" />
-        <activity android:name=".ui.view.activities.SettingsActivity"></activity>
+        <activity android:name=".ui.view.activities.JourneysActivity"
+            android:label="@string/user_journeys"/>
+        <activity android:name=".ui.view.activities.SettingsActivity"
+            android:label="@string/action_settings"></activity>
     </application>
 
 </manifest>

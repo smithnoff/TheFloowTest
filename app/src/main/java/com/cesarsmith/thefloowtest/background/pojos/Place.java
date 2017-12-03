@@ -3,7 +3,7 @@ package com.cesarsmith.thefloowtest.background.pojos;
 /**
  * Created by Softandnet on 30/11/2017.
  */
-
+/*User custom place model data*/
 public class Place {
 
     private String id,name;

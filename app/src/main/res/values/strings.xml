@@ -14,4 +14,15 @@
     <string name="dialog_no_save">don`t save</string>
     <string name="dialog_cancel">cancel</string>
     <string name="no_journey">No journeys registered</string>
+    <string name="view_map">view on map</string>
+    <string name="close_text">close</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_time">End Time</string>
+    <string name="total_time">Total Time</string>
+    <string name="distance">Distance</string>
+    <string name="speed_avg">Speed avg.</string>
+    <string name="stop_time">Stop Time</string>
+    <string name="place">Place</string>
+    <string name="location_permission">Location permissions needed for this feature, allows the app to location access?</string>
+    <string name="user_journeys">My Journeys</string>
 </resources>

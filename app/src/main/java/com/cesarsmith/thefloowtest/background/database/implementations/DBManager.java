@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.cesarsmith.thefloowtest.background.pojos.Journey;
 import com.cesarsmith.thefloowtest.background.pojos.Place;
@@ -13,11 +14,12 @@ import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Softandnet on 29/11/2017.
  */
-
+/*Database manager to make CRUD operations*/
 public class DBManager {
 
 
@@ -38,12 +40,11 @@ public class DBManager {
 
     SQLiteDatabase database;
     DBHelper dbHelper;
-    AsyncRetrieve asyncRetrieve;
+
 
     public DBManager(Context context) {
         dbHelper = new DBHelper(context);
         database = dbHelper.getWritableDatabase();
-        asyncRetrieve = new AsyncRetrieve(context);
     }
 
     public void openReadDB() {
@@ -59,6 +60,7 @@ public class DBManager {
             database.close();
     }
 
+    //method returns a contentvalues object to save in the database
     public ContentValues setJourney(Journey userJourney) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(start_time, userJourney.getStartTime());
@@ -67,10 +69,12 @@ public class DBManager {
         contentValues.put(day_week, userJourney.getDayWeek());
         contentValues.put(total_time, userJourney.getTotalTime());
         contentValues.put(place, userJourney.getPlace());
+        //encryption of the user track
         contentValues.put(track, PolyUtil.encode(userJourney.getTrack().getPoints()));
         return contentValues;
     }
 
+    //method to save a new user journey
     public void insertJourney(Journey userJourney) {
         opendWriteDB();
         if (database != null)
@@ -79,6 +83,7 @@ public class DBManager {
 
     }
 
+    //delete all the database info
     public void deleteDB() {
         opendWriteDB();
         database.delete(journeysTable, null, null);
@@ -86,18 +91,19 @@ public class DBManager {
 
     }
 
-
+//Method returns a list of users journeys
     public List<Journey> getUserJourneys() {
         List<Journey> journeyList = new ArrayList<>();
         Cursor cursor;
         openReadDB();
+        //selecting all journeys from database
         cursor = database.query(journeysTable, new String[]{"*"}, null, null, null, null, null);
+        //retrieving from last journey to first journey registered
         if (cursor != null) {
-            if (cursor.getCount()>0) {
+            if (cursor.getCount() > 0) {
                 cursor.moveToLast();
                 do {
                     PolylineOptions polylineOptions = new PolylineOptions();
-
                     journeyList.add(new Journey(
                             cursor.getString(cursor.getColumnIndex(start_time)),
                             cursor.getString(cursor.getColumnIndex(end_time)),
@@ -105,68 +111,45 @@ public class DBManager {
                             cursor.getString(cursor.getColumnIndex(total_time)),
                             cursor.getString(cursor.getColumnIndex(day_week)),
                             cursor.getString(cursor.getColumnIndex(place)),
+
+                            //decryption of the tracks
                             polylineOptions.addAll(PolyUtil.decode(cursor.getString(cursor.getColumnIndex(track)))),
                             cursor.getString(cursor.getColumnIndex(_id))));
                 } while (cursor.moveToPrevious());
             }
             cursor.close();
+            closeDB();
         }
 
         return journeyList;
 
     }
-
+//method insert custom user places
     public void insertPlace(String upID, String placeName) {
         opendWriteDB();
-
-        ContentValues contentValues=new ContentValues();
-        contentValues.put(pId,upID);
-        contentValues.put(place_name,placeName);
-        database.insert(placesTable,null,contentValues);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(pId, upID);
+        contentValues.put(place_name, placeName);
+        database.insert(placesTable, null, contentValues);
     }
+//method return all user custom places
     public List<Place> getUserPlaces() {
-        List<Place> placeList=new ArrayList<>();
-
+        List<Place> placeList = new ArrayList<>();
         Cursor cursor;
         openReadDB();
-        cursor = database.query(placesTable, new String[]{"*"}, null, null, null, null, null);
+        cursor = database.query(placesTable, new String[]{"*"}, null, null, null, null, place_name+" ASC");
         if (cursor != null) {
-            if (cursor.getCount()>0){
-            cursor.moveToFirst();
-            do {
-                placeList.add(new Place(cursor.getString(cursor.getColumnIndex(pId)),cursor.getString(cursor.getColumnIndex(place_name))));
-            } while (cursor.moveToNext());
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                do {
+                    placeList.add(new Place(cursor.getString(cursor.getColumnIndex(pId)), cursor.getString(cursor.getColumnIndex(place_name))));
+                } while (cursor.moveToNext());
             }
             cursor.close();
         }
 
 
-
-        return  placeList;
-    }
-
-
-        private class AsyncRetrieve extends AsyncTask<Void, Void, Void> {
-        Context context;
-
-        public AsyncRetrieve(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
+        return placeList;
     }
 
 

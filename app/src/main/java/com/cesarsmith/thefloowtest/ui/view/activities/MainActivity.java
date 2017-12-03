@@ -20,7 +20,7 @@ import com.cesarsmith.thefloowtest.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+   Class  activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +38,17 @@ public class MainActivity extends AppCompatActivity
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        /* Drawer lister to start a new activity when closing animation finish*/
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                startDelayedActivity(activity);
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -68,14 +77,14 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
 
 
-            startDelayedActivity(MapsActivity.class);
+            activity=MapsActivity.class;
 
         } else if (id == R.id.nav_gallery) {
-            startDelayedActivity(JourneysActivity.class);
+            activity=JourneysActivity.class;
 
 
         } else if (id == R.id.nav_slideshow) {
-            startDelayedActivity(SettingsActivity.class);
+            activity=SettingsActivity.class;
 
         }
 
@@ -85,15 +94,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void startDelayedActivity(final Class activity) {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(MainActivity.this, activity));
+      /*This method use a start a new activity after drawer closing animation finish to avoid laggy behavior */
 
-            }
-        }, 230);
+    public void startDelayedActivity(final Class activity) {
+
+        if ( this.activity!=null  ) startActivity(new Intent(MainActivity.this, activity));
+
     }
 
 

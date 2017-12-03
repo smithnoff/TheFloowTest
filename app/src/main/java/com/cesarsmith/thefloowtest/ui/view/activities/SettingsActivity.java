@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.cesarsmith.thefloowtest.R;
 import com.cesarsmith.thefloowtest.background.database.implementations.DBManager;
-
+/*This class make a delete of database journeys and places tables*/
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -25,6 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
         restoreAppBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // method call database manager delete method
+
                 dbManager.deleteDB();
                 finish();
             }

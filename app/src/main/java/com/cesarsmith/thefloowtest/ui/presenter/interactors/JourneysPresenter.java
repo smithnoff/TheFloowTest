@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Softandnet on 29/11/2017.
  */
-
+/*this class send to the view all model results*/
 public class JourneysPresenter implements JourneysCallback.Presenter {
 
     JourneysCallback.View view;

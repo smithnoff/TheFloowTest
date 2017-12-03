@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +19,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-
+  /*This class handle the user journeys list*/
 public class JourneysActivity extends AppCompatActivity implements JourneysCallback.View{
        RecyclerView recyclerView;
        List<Journey>journeyList;
@@ -39,8 +40,9 @@ public class JourneysActivity extends AppCompatActivity implements JourneysCallb
         journeyList=new ArrayList<>();
         recyclerView.setAdapter(new JourneyAdapter(this,journeyList));
         recyclerView.getAdapter().notifyDataSetChanged();
-        recyclerView.setVisibility(View.GONE);
-        noJourneysTv.setVisibility(View.VISIBLE);
+
+
+        //call to presenter method
         presenter.loadJourneys(this);
 
 
@@ -62,10 +64,15 @@ public class JourneysActivity extends AppCompatActivity implements JourneysCallb
     @Override
     public void showResults(List<Journey> journeyList) {
        this.journeyList=journeyList;
+       //if  journeys registered hide textview and show the list
        if (journeyList.size()>0){
-           recyclerView.setVisibility(View.VISIBLE);
            noJourneysTv.setVisibility(View.GONE);
+       }else{
+           noJourneysTv.setVisibility(View.VISIBLE);
+
        }
+       //set adapter
+        Log.e("actiidad", "showResults: "+journeyList.size() );
         recyclerView.setAdapter(new JourneyAdapter(this,journeyList));
         recyclerView.getAdapter().notifyDataSetChanged();
     }
