@@ -75,17 +75,19 @@ public class CustomDialogs {
             @Override
             public void onClick(View view) {
 
-                if (dialogNewPlace.getText().toString().isEmpty() && dialogSpinnerPlaces.getSelectedItem() != null)
+                if (dialogNewPlace.getText().toString().isEmpty()) {
                     //setting place if there no new place typed by the user, if no spinner or text type default journey place is saved
-                    if (dialogSpinnerPlaces.getAdapter().getCount()>0)
-                    journey.setPlace(dialogSpinnerPlaces.getSelectedItem().toString());
-                else {
-                    //saving the new place typed by the user
-                    if (!dialogNewPlace.getText().toString().isEmpty())
-                    journey.setPlace(dialogNewPlace.getText().toString());
-                    //creating a custom id for the user place
-                    manager.insertPlace(UUID.randomUUID().toString(), dialogNewPlace.getText().toString());
-                }
+                    if (dialogSpinnerPlaces.getAdapter() != null)
+                        if (dialogSpinnerPlaces.getAdapter().getCount() > 0 &dialogSpinnerPlaces.getSelectedItemPosition()>0)
+                            journey.setPlace(dialogSpinnerPlaces.getSelectedItem().toString());
+
+
+                }  else {
+                        //saving the new place typed by the user
+                        journey.setPlace(dialogNewPlace.getText().toString());
+                        //creating a custom id for the user place
+                        manager.insertPlace(UUID.randomUUID().toString(), dialogNewPlace.getText().toString());
+                    }
                 //inserting new journey
                 manager.insertJourney(journey);
                 dialog.dismiss();
@@ -190,11 +192,12 @@ public class CustomDialogs {
         dialog.show();
 
     }
+
     //method returns a correct zoom to fit the full track journey in the map view
     private static void getCorrectZoom(final PolylineOptions route, final GoogleMap map) {
         // route is instance of PolylineOptions
-         List<LatLng> points = route.getPoints();
-         //builder of all location points
+        List<LatLng> points = route.getPoints();
+        //builder of all location points
         final LatLngBounds.Builder bc = new LatLngBounds.Builder();
 
         for (LatLng item : points) {
@@ -209,7 +212,8 @@ public class CustomDialogs {
         });
 
     }
-//dialog to request android location permissions
+
+    //dialog to request android location permissions
     public static void errorDialog(final Activity activity, String msg) {
         final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
 
@@ -232,7 +236,6 @@ public class CustomDialogs {
             }
         });
     }
-
 
 
 }

@@ -166,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CustomDialogs.saveJourneyDialog(MapsActivity.this,
                 new Journey(startTime, endTime, TimeDateUtils.getCurrentDate(), TimeDateUtils.stopTimer(), TimeDateUtils.getDayWeek(), "No Place", polylineOptions, ""));
         //delete polyline
-        polylineOptions = null;
+        polylineOptions = new PolylineOptions().width(4).color(Color.MAGENTA).geodesic(true);
 
 
     }
@@ -183,21 +183,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
  //Method to draw map
     public void trackingMethod(Location location) {
         //last user position
-        mLastLocation = location;
-        //removing marker
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
+        if(location!=null) {
+            mLastLocation = location;
+            //removing marker
+            if (mCurrLocationMarker != null) {
+                mCurrLocationMarker.remove();
+            }
+            //getting latitude and longitude to set new marker and add to polyline
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            //adding marker in current user location
+            mCurrLocationMarker = mMap.addMarker(markerOptions.position(latLng));
+            //moving map to current user position
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
+            //add new polyline to track
+            polylineOptions.add(latLng);
+            //call to Method  which draw a new map
+            drawMap(polylineOptions);
         }
-        //getting latitude and longitude to set new marker and add to polyline
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        //adding marker in current user location
-        mCurrLocationMarker = mMap.addMarker(markerOptions.position(latLng));
-        //moving map to current user position
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
-        //add new polyline to track
-        polylineOptions.add(latLng);
-        //call to Method  which draw a new map
-         drawMap(polylineOptions);
 
     }
 
