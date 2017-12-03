@@ -1,0 +1,34 @@
+For this project i used The MVP pattern that allows separate the presentation layer from the logic layer.
+MVP is not an architectural pattern, its only responsible for the presentation layer, i choose this 
+because makes the views independent from our data source and everyone can adjust the pattern idea to their
+needs and the way they feel more comfortable. we are able to take most of logic out from the activities 
+so that we can test it without using instrumentation tests.
+In my case i always send the calculate process, database or service request to the Model layer, the presenter 
+choose the method to execute in the view when the model finish a task, the view to initialize views and and simple tasks.
+more information about 
+MVP https://android.jlelse.eu/android-mvp-for-beginners-25889c500443
+
+In this proyect are 2 main Folders background and ui.
+
+BACKGROUND: Here i save all the classes related to background like databases services etc.
+   background/DATABASES: all classes related to database are created here.
+   background/POJOS: Data Models are stored here.
+   background/SERVICES: all web services and app services classes are saved here.
+   
+   
+   
+UI:All clases related to MVP pattern are stored in different folder here. 
+* ui/MODEL:Here i save MVP model classes.
+* ui/PRESENTER: MVP presenter classes are saved here.
+     - ui/PRESENTER/CALLBACKS:all the interfaces documents to implement MVP patter are saved here.
+     - ui/PRESENTER/INTERACTORS:all the presenter classes documents are stored here.
+* ui/VIEW:All classes related to the view like activities, fragments, adapters, utils etc.  
+
+
+I implemented MVP in this way.
+
+>View classes: Only do update view process, show errors and dialogs.
+
+>Presenter classes: Is the link between model and view and sometimes can do any select process.
+
+>Model classes: Call and stop services, databases and some cases execute calculation processes.
